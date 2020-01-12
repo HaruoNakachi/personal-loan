@@ -1,0 +1,14 @@
+type Request @model {
+  id: ID!
+  email: String!
+  title: String
+  content: String
+  requestedLoan: String
+  requestedLoanInt: Integer
+  splitLoans: [SplitLoan] @connection(name: "RequestSplitLoans")
+}
+type SplitLoan @model {
+  id: ID!
+  title: String!
+  request: Request @connection(name: "RequestSplitLoans")
+}
