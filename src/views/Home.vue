@@ -20,9 +20,17 @@
             loading-text="NOW LOADING..."
             item-key="id"
             :custom-sort="customSort"
+            disable-sort
           >
-            <template v-slot:item.act="{ item }">
-              <v-btn small @click="clickActBtn(item)">詳細</v-btn>
+            <template v-slot:body="{ items }">
+              <tbody>
+                <tr v-for="item in items" :key="item.name">
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.age }}</td>
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.address }}</td>
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.debt }}</td>
+                  <td class="caption pa-0 ba-0 ma-0" @click="clickActBtn(item)">{{ item.desiredAmount }}</td>
+                </tr>
+              </tbody>
             </template>
           </v-data-table>
         </template>
@@ -44,15 +52,14 @@ export default {
       requests: [],
       loading: true,
       headers: [
+        { text: 'Age', value: 'age' },
         {
-          text: 'Address',
+          text: 'Ad',
           align: 'left',
           value: 'address',
         },
-        { text: 'DesiredAmount', value: 'desiredAmount' },
-        { text: 'Age', value: 'age' },
         { text: 'Debt', value: 'debt' },
-        { text: 'Act', value: 'act' },
+        { text: 'DA', value: 'desiredAmount' },
       ],
     }
   },
