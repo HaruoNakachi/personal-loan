@@ -57,6 +57,7 @@ exports.handler = async (event) => {
         name: getValue(comment, '名前').trim(),
         age: getValue(comment, '年齢').trim(),
         requestDate: $(comment).find('.wc-comment-date').text().trim(),
+        status: 'NotChecked',
       }
       const line = getValue(comment, 'LINE').trim();
       const sex = getValue(comment, '性別').trim();
