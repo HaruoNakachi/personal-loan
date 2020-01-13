@@ -19,6 +19,7 @@ export const getRequest = `query GetRequest($id: ID!) {
     identification
     debtConsolidation
     requestDate
+    requestDateUnixTimeStamp
     splitLoans {
       items {
         id
@@ -52,6 +53,7 @@ export const listRequests = `query ListRequests(
       identification
       debtConsolidation
       requestDate
+      requestDateUnixTimeStamp
       splitLoans {
         nextToken
       }
@@ -81,6 +83,7 @@ export const getSplitLoan = `query GetSplitLoan($id: ID!) {
       identification
       debtConsolidation
       requestDate
+      requestDateUnixTimeStamp
       splitLoans {
         nextToken
       }
@@ -114,6 +117,7 @@ export const listSplitLoans = `query ListSplitLoans(
         identification
         debtConsolidation
         requestDate
+        requestDateUnixTimeStamp
       }
     }
     nextToken

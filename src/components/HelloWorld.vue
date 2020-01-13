@@ -19,6 +19,7 @@
             :loading="loading"
             loading-text="NOW LOADING..."
             item-key="id"
+            :custom-sort="customSort"
           ></v-data-table>
         </template>
       </v-flex>
@@ -29,6 +30,8 @@
 <script>
 import API, { graphqlOperation } from "@aws-amplify/api";
 import { listRequests } from "../graphql/queries";
+const moment = require('moment');
+moment().format();
 
 export default {
   name: 'HelloWorld',
@@ -40,7 +43,6 @@ export default {
         {
           text: 'Address',
           align: 'left',
-          sortable: false,
           value: 'address',
         },
         { text: 'DesiredAmount', value: 'desiredAmount' },
@@ -54,8 +56,24 @@ export default {
     async getData() {
       const requestData = await API.graphql(graphqlOperation(listRequests));
       this.requests.push(...this.requests, ...requestData.data.listRequests.items);
+      this.requests.forEach((request) => {
+        request.requestDateUnixTimeStamp = moment(request.requestDate, "YYYY年MM月DD日 HH:mm").unix();
+      })
       this.loading = false
+      console.log(this.requests)
     },
+    customSort(items) {
+      items.sort((a, b) => {
+        console.log('[DEBUG]')
+        console.log(a)
+        const aTimestamp = moment(a.requestDate, "YYYY年MM月DD日 HH:mm").unix()
+        const bTimestamp = moment(b.requestDate, "YYYY年MM月DD日 HH:mm").unix()
+        if (aTimestamp > bTimestamp) { return -1; }
+        if (aTimestamp < bTimestamp) { return 1; }
+        return 0
+      })
+      return items;
+    }
   },
     created() {
     this.getData();
