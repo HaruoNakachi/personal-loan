@@ -60,12 +60,9 @@ export default {
         request.requestDateUnixTimeStamp = moment(request.requestDate, "YYYY年MM月DD日 HH:mm").unix();
       })
       this.loading = false
-      console.log(this.requests)
     },
     customSort(items) {
       items.sort((a, b) => {
-        console.log('[DEBUG]')
-        console.log(a)
         const aTimestamp = moment(a.requestDate, "YYYY年MM月DD日 HH:mm").unix()
         const bTimestamp = moment(b.requestDate, "YYYY年MM月DD日 HH:mm").unix()
         if (aTimestamp > bTimestamp) { return -1; }
