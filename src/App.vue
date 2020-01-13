@@ -13,6 +13,7 @@
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
           transition="scale-transition"
           width="40"
+          @click="clickImg"
         />
 
         <v-img
@@ -38,23 +39,21 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
   data: () => ({
     //
   }),
+  methods: {
+    clickImg() {
+      this.$router.push('/')
+    }
+  }
 };
 </script>

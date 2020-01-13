@@ -75,11 +75,12 @@ export default {
       })
       return items;
     },
-    clickActBtn(item) {
-      console.log(item)
+    clickActBtn(request) {
+      this.$router.push('/detail_request/' + request.id)
     }
   },
-    created() {
+  created() {
+    console.log('[DEBUG] HOME called')
     this.getData();
   }
 };
