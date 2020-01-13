@@ -1,11 +1,49 @@
 <template>
   <v-container>
     <v-layout
+      v-if="inProcessRequests.length > 0"
       text-left
       wrap
     >
-      <v-flex mb-4>
-        <h1 class="display-2 font-weight-bold mb-3">
+      <v-flex mb-4 pa-0 ma-0 ba-0>
+        <h1 class="title font-weight-bold mb-3">
+          inProcess List
+        </h1>
+      </v-flex>
+      <v-flex col-12>
+        <template>
+          <v-data-table
+            :headers="headers"
+            :items="inProcessRequests"
+            :items-per-page="15"
+            class="elevation-1"
+            :loading="loading"
+            loading-text="NOW LOADING..."
+            item-key="id"
+            :custom-sort="customSort"
+            disable-sort
+          >
+            <template v-slot:body="{ items }">
+              <tbody>
+                <tr v-for="item in items" :key="item.name">
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.age }}</td>
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.address }}</td>
+                  <td class="caption pa-0 ba-0 ma-0">{{ item.debt }}</td>
+                  <td class="caption pa-0 ba-0 ma-0" @click="clickActBtn(item)">{{ item.desiredAmount }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-data-table>
+        </template>
+      </v-flex>
+    </v-layout>
+
+    <v-layout
+      text-left
+      wrap
+    >
+      <v-flex mb-4 pa-0 ma-0 ba-0>
+        <h1 class="title font-weight-bold mb-3">
           Request List
         </h1>
       </v-flex>
@@ -50,6 +88,7 @@ export default {
   data() {
     return {
       requests: [],
+      inProcessRequests: [],
       loading: true,
       headers: [
         { text: 'Age', value: 'age' },
@@ -65,12 +104,13 @@ export default {
   },
   methods: {
     async getData() {
-      const requestData = await API.graphql(graphqlOperation(listRequests));
+      const requestData = await API.graphql(graphqlOperation(listRequests, {filter: {status: {eq: 'NotChecked'}}}));
       this.requests.push(...this.requests, ...requestData.data.listRequests.items);
-      this.requests.forEach((request) => {
-        request.requestDateUnixTimeStamp = moment(request.requestDate, "YYYY年MM月DD日 HH:mm").unix();
-      })
       this.loading = false
+      
+      const inProcessRequestData = await API.graphql(graphqlOperation(listRequests, {filter: {status: {eq: 'InProcess'}}}));
+      this.inProcessRequests.push(...this.inProcessRequests, ...inProcessRequestData.data.listRequests.items)
+      console.log(inProcessRequestData.data)
     },
     customSort(items) {
       items.sort((a, b) => {
