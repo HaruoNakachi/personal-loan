@@ -20,6 +20,21 @@ amplify remove function
 (select a function you want to remove)
 ```
 
+## [IMPORTANT!!] How to zip lambda functions
+```
+# index.js と node_modules ディレクトリーのある場所に移動する！！
+cd amplify/backend/function/function-name/src
+npm install
+zip -r ../function-name.zip .
+```
+
+## Cannot find module 'request'
+```
+cd amplify/backend/function/function-name/src
+# 必ず --save オプションをつける！！
+npm install request --save
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
