@@ -10,6 +10,8 @@ const cheerio = require('cheerio');
 const gql = require('graphql-tag');
 const axios = require('axios');
 const print = require('graphql').print;
+const moment = require('moment');
+moment().format();
 const createRequest = gql`mutation CreateRequest(
   $input: CreateRequestInput!
   $condition: ModelRequestConditionInput
@@ -65,6 +67,7 @@ exports.handler = async (event) => {
       const debt = getValue(comment, '現在の借金総額').trim();
       const identification = getValue(comment, '身分証明書').trim();
       const debtConsolidation = getValue(comment, '債務整理歴').trim();
+      const requestDateUnixTimeStamp = moment(loanRequest.requestDate, "YYYY年MM月DD日 HH:mm").unix();
       if (line) { loanRequest.line = line };
       if (sex) { loanRequest.sex = sex };
       if (address) { loanRequest.address = address };
@@ -74,6 +77,7 @@ exports.handler = async (event) => {
       if (debt) { loanRequest.debt = debt };
       if (identification) { loanRequest.identification = identification };
       if (debtConsolidation) { loanRequest.debtConsolidation = debtConsolidation };
+      if (requestDateUnixTimeStamp) { loanRequest.requestDateUnixTimeStamp = requestDateUnixTimeStamp };
 
       console.log(loanRequest)
       try {

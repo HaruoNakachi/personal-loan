@@ -15,6 +15,7 @@ type Request @model {
   identification: String
   debtConsolidation: String
   requestDate: String
+  requestDateUnixTimeStamp: Int
   splitLoans: [SplitLoan] @connection(name: "RequestSplitLoans")
 }
 type SplitLoan @model {
