@@ -20,7 +20,11 @@
             loading-text="NOW LOADING..."
             item-key="id"
             :custom-sort="customSort"
-          ></v-data-table>
+          >
+            <template v-slot:item.act="{ item }">
+              <v-btn small @click="clickActBtn(item)">詳細</v-btn>
+            </template>
+          </v-data-table>
         </template>
       </v-flex>
     </v-layout>
@@ -47,8 +51,8 @@ export default {
         },
         { text: 'DesiredAmount', value: 'desiredAmount' },
         { text: 'Age', value: 'age' },
-        { text: 'RequestedAt', value: 'requestDate' },
-        { text: 'debt', value: 'debt' },
+        { text: 'Debt', value: 'debt' },
+        { text: 'Act', value: 'act' },
       ],
     }
   },
@@ -70,6 +74,9 @@ export default {
         return 0
       })
       return items;
+    },
+    clickActBtn(item) {
+      console.log(item)
     }
   },
     created() {
