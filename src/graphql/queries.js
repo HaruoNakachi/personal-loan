@@ -4,7 +4,21 @@
 export const getRequest = `query GetRequest($id: ID!) {
   getRequest(id: $id) {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -23,7 +37,21 @@ export const listRequests = `query ListRequests(
   listRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -38,7 +66,21 @@ export const getSplitLoan = `query GetSplitLoan($id: ID!) {
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -57,7 +99,21 @@ export const listSplitLoans = `query ListSplitLoans(
       title
       request {
         id
+        title
+        content
+        email
+        line
         name
+        age
+        sex
+        address
+        occupation
+        desiredAmount
+        salary
+        debt
+        identification
+        debtConsolidation
+        requestDate
       }
     }
     nextToken

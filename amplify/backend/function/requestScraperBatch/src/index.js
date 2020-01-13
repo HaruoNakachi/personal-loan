@@ -35,7 +35,7 @@ exports.handler = async (event) => {
     for (let i = 0; i < comments.length; i++) {
       const comment = comments[i]
       const getValue = (elem, label) => {
-        const ary = $(elem).find('.wpd-custom-field.wpd-cf-text').filter((index, field)=>{
+        const ary = $(elem).find('.wpd-custom-field.wpd-cf-text').filter((idx, field)=>{
           return $(field).find('.wpd-cf-label').text() == label
         })
         let val = ''
@@ -43,44 +43,56 @@ exports.handler = async (event) => {
           val = $(ary[0]).find('.wpd-cf-value').text()
         } catch (error) {
           console.log(error)
-          val = ''
+          val = 'abc'
         }
         return val
       }
-      const request = {
+      const loanRequest = {
         id: $(comment).attr('id'),
         title: $(comment).find('.wc-comment-author').text(),
         content: $(comment).find('.wc-comment-text').text(),
-        email: getValue(comment, 'メール'),
-        line: getValue(comment, 'LINE'),
-        name: getValue(comment, '名前'),
-        age: getValue(comment, '年齢'),
-        sex: getValue(comment, '性別'),
-        address: getValue(comment, '住所'),
-        occupation: getValue(comment, '職業'),
-        desiredAmount: getValue(comment, '融資希望額'),
-        salary: getValue(comment, '月収'),
-        debt: getValue(comment, '現在の借金総額'),
-        identification: getValue(comment, '身分証明書'),
-        debtConsolidation: getValue(comment, '債務整理歴'),
-        requestDate: $(comment).find('.wc-comment-date').text(),
+        email: getValue(comment, 'メール').trim(),
+        name: getValue(comment, '名前').trim(),
+        age: getValue(comment, '年齢').trim(),
+        requestDate: $(comment).find('.wc-comment-date').text().trim(),
       }
-      console.log(request)
-      axios.post('https://4eb6kjjiqbcq5omxog6kafka7i.appsync-api.ap-northeast-1.amazonaws.com/graphql', {
-        headers: {
-          'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='
-        },
-        query: print(createRequest),
-        variables: {
-          input: {
-            request
-          }
-        },
-      }, {
-        headers: headers
-      })
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err))
+      const line = getValue(comment, 'LINE').trim();
+      const sex = getValue(comment, '性別').trim();
+      const address = getValue(comment, '住所').trim();
+      const occupation = getValue(comment, '職業').trim();
+      const desiredAmount = getValue(comment, '融資希望額').trim();
+      const salary = getValue(comment, '月収').trim();
+      const debt = getValue(comment, '現在の借金総額').trim();
+      const identification = getValue(comment, '身分証明書').trim();
+      const debtConsolidation = getValue(comment, '債務整理歴').trim();
+      if (line) { loanRequest.line = line };
+      if (sex) { loanRequest.sex = sex };
+      if (address) { loanRequest.address = address };
+      if (occupation) { loanRequest.occupation = occupation };
+      if (desiredAmount) { loanRequest.desiredAmount = desiredAmount };
+      if (salary) { loanRequest.salary = salary };
+      if (debt) { loanRequest.debt = debt };
+      if (identification) { loanRequest.identification = identification };
+      if (debtConsolidation) { loanRequest.debtConsolidation = debtConsolidation };
+
+      console.log(loanRequest)
+      try {
+        axios.post('https://4eb6kjjiqbcq5omxog6kafka7i.appsync-api.ap-northeast-1.amazonaws.com/graphql', {
+          headers: {
+            'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='
+          },
+          query: print(createRequest),
+          variables: {
+            input: loanRequest
+          },
+        }, {
+          headers: headers
+        })
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+      } catch (err) {
+        console.log(err)
+      }
     }
   })
 
@@ -90,6 +102,7 @@ exports.handler = async (event) => {
   };
   return response;
 };
+
 
 // [SAMPLE]
 // const rp = require('request-promise');

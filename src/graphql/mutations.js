@@ -7,7 +7,21 @@ export const createRequest = `mutation CreateRequest(
 ) {
   createRequest(input: $input, condition: $condition) {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -24,7 +38,21 @@ export const updateRequest = `mutation UpdateRequest(
 ) {
   updateRequest(input: $input, condition: $condition) {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -41,7 +69,21 @@ export const deleteRequest = `mutation DeleteRequest(
 ) {
   deleteRequest(input: $input, condition: $condition) {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -61,7 +103,21 @@ export const createSplitLoan = `mutation CreateSplitLoan(
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -78,7 +134,21 @@ export const updateSplitLoan = `mutation UpdateSplitLoan(
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -95,7 +165,21 @@ export const deleteSplitLoan = `mutation DeleteSplitLoan(
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }

@@ -1,10 +1,20 @@
 type Request @model {
   id: ID!
-  email: String!
   title: String
   content: String
-  requestedLoan: String
-  requestedLoanInt: Integer
+  email: String
+  line: String
+  name: String
+  age: String
+  sex: String
+  address: String
+  occupation: String
+  desiredAmount: String
+  salary: String
+  debt: String
+  identification: String
+  debtConsolidation: String
+  requestDate: String
   splitLoans: [SplitLoan] @connection(name: "RequestSplitLoans")
 }
 type SplitLoan @model {

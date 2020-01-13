@@ -4,7 +4,21 @@
 export const onCreateRequest = `subscription OnCreateRequest {
   onCreateRequest {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -18,7 +32,21 @@ export const onCreateRequest = `subscription OnCreateRequest {
 export const onUpdateRequest = `subscription OnUpdateRequest {
   onUpdateRequest {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -32,7 +60,21 @@ export const onUpdateRequest = `subscription OnUpdateRequest {
 export const onDeleteRequest = `subscription OnDeleteRequest {
   onDeleteRequest {
     id
+    title
+    content
+    email
+    line
     name
+    age
+    sex
+    address
+    occupation
+    desiredAmount
+    salary
+    debt
+    identification
+    debtConsolidation
+    requestDate
     splitLoans {
       items {
         id
@@ -49,7 +91,21 @@ export const onCreateSplitLoan = `subscription OnCreateSplitLoan {
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -63,7 +119,21 @@ export const onUpdateSplitLoan = `subscription OnUpdateSplitLoan {
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
@@ -77,7 +147,21 @@ export const onDeleteSplitLoan = `subscription OnDeleteSplitLoan {
     title
     request {
       id
+      title
+      content
+      email
+      line
       name
+      age
+      sex
+      address
+      occupation
+      desiredAmount
+      salary
+      debt
+      identification
+      debtConsolidation
+      requestDate
       splitLoans {
         nextToken
       }
