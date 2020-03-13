@@ -1,58 +1,87 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-container>
+    <v-layout
+      text-left
+      wrap
+    >
+      <v-flex mb-4>
+        <h1 class="display-2 font-weight-bold mb-3">
+          Request List
+        </h1>
+      </v-flex>
+      <v-flex col-12>
+        <template>
+          <v-data-table
+            :headers="headers"
+            :items="requests"
+            :items-per-page="15"
+            class="elevation-1"
+            :loading="loading"
+            loading-text="NOW LOADING..."
+            item-key="id"
+            :custom-sort="customSort"
+          >
+            <template v-slot:item.act="{ item }">
+              <v-btn small @click="clickActBtn(item)">詳細</v-btn>
+            </template>
+          </v-data-table>
+        </template>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+import API, { graphqlOperation } from "@aws-amplify/api";
+import { listRequests } from "../graphql/queries";
+const moment = require('moment');
+moment().format();
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      requests: [],
+      loading: true,
+      headers: [
+        {
+          text: 'Address',
+          align: 'left',
+          value: 'address',
+        },
+        { text: 'DesiredAmount', value: 'desiredAmount' },
+        { text: 'Age', value: 'age' },
+        { text: 'Debt', value: 'debt' },
+        { text: 'Act', value: 'act' },
+      ],
+    }
+  },
+  methods: {
+    async getData() {
+      const requestData = await API.graphql(graphqlOperation(listRequests));
+      this.requests.push(...this.requests, ...requestData.data.listRequests.items);
+      this.requests.forEach((request) => {
+        request.requestDateUnixTimeStamp = moment(request.requestDate, "YYYY年MM月DD日 HH:mm").unix();
+      })
+      this.loading = false
+    },
+    customSort(items) {
+      items.sort((a, b) => {
+        const aTimestamp = moment(a.requestDate, "YYYY年MM月DD日 HH:mm").unix()
+        const bTimestamp = moment(b.requestDate, "YYYY年MM月DD日 HH:mm").unix()
+        if (aTimestamp > bTimestamp) { return -1; }
+        if (aTimestamp < bTimestamp) { return 1; }
+        return 0
+      })
+      return items;
+    },
+    clickActBtn(request) {
+      this.$router.push('/detail_request/' + request.id)
+    }
+  },
+  created() {
+    console.log('[DEBUG] HOME called')
+    this.getData();
   }
-}
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
